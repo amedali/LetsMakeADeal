@@ -23,11 +23,11 @@ public class LetsMakeADeal {
         System.out.print("Play or simulate? (P/S): ");
         String userChoiceForPlay = console.nextLine();
 
-        if (userChoiceForPlay.equals("P") || userChoiceForPlay.equals("p") ) {
+        if (userChoiceForPlay.equalsIgnoreCase("P")) {
 
             play();
 
-        } if (userChoiceForPlay.equals("S") || userChoiceForPlay.equals("s") ) {
+        } if (userChoiceForPlay.equalsIgnoreCase("S")) {
 
             simulate();
 
@@ -48,13 +48,16 @@ public class LetsMakeADeal {
 
         doorNumberOfCar = random.nextInt(3) + 1;
 
-        allPossibleDoorNumbers.add(0,1);
-        allPossibleDoorNumbers.add(1,2);
-        allPossibleDoorNumbers.add(2,3);
+        allPossibleDoorNumbers.add(1);
+        allPossibleDoorNumbers.add(2);
+        allPossibleDoorNumbers.add(3);
 
         System.out.print("Which door do you pick? (1/2/3): ");
         userChoiceForDoor = console.nextInt();
+        // /n komutunu tüketmek için alttaki statement gerekli.
+        console.nextLine();
 
+        // index'e göre değil integer'in kendisinin çıkması gerektiği için integer casting gerekli.
         allPossibleDoorNumbers.remove((Integer)userChoiceForDoor);
 
         if (userChoiceForDoor==doorNumberOfCar) {
@@ -72,8 +75,7 @@ public class LetsMakeADeal {
             System.out.print("Do you want to change your choice and pick door number " + numberOfRemainingDoor + "? (Y/N): ");
             userChoiceForChange = console.nextLine();
 
-            responseToChange();
-
+            System.out.println(userChoiceForChange);
 
         } else {
 
@@ -88,9 +90,11 @@ public class LetsMakeADeal {
             System.out.print("Do you want to change your choice and pick door number " + doorNumberOfCar + "? (Y/N): ");
             userChoiceForChange = console.nextLine();
 
-            responseToChange();
+            System.out.println(userChoiceForChange);
 
         }
+
+        responseToChange();
 
     }
 
@@ -116,16 +120,15 @@ public class LetsMakeADeal {
 
     public static void responseToChange() {
 
-        if (userChoiceForChange.equals("Y") || userChoiceForChange.equals("y") ) {
+        if (userChoiceForChange.equalsIgnoreCase("Y")) {
 
             userChoiceForDoor = numberOfRemainingDoor;
 
-        } if (userChoiceForChange.equals("N") || userChoiceForChange.equals("n") ) {
-
-
-        } else {
+        } else if (!userChoiceForChange.equalsIgnoreCase("N")) {
 
             System.out.println("Please enter either Y or N");
+
+            responseToChange();
 
         }
 
