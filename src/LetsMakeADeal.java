@@ -27,7 +27,7 @@ public class LetsMakeADeal {
 
             play();
 
-        } if (userChoiceForPlay.equalsIgnoreCase("S")) {
+        } else if (userChoiceForPlay.equalsIgnoreCase("S")) {
 
             simulate();
 
@@ -75,7 +75,7 @@ public class LetsMakeADeal {
             System.out.print("Do you want to change your choice and pick door number " + numberOfRemainingDoor + "? (Y/N): ");
             userChoiceForChange = console.nextLine();
 
-            System.out.println(userChoiceForChange);
+            responseToChange();
 
         } else {
 
@@ -90,11 +90,9 @@ public class LetsMakeADeal {
             System.out.print("Do you want to change your choice and pick door number " + doorNumberOfCar + "? (Y/N): ");
             userChoiceForChange = console.nextLine();
 
-            System.out.println(userChoiceForChange);
+            responseToChange();
 
         }
-
-        responseToChange();
 
     }
 
@@ -105,6 +103,9 @@ public class LetsMakeADeal {
     }
 
     public static void result() {
+
+        System.out.println("User " + userChoiceForDoor);
+        System.out.println("Real " + doorNumberOfCar);
 
         if (userChoiceForDoor == doorNumberOfCar){
 
@@ -124,7 +125,13 @@ public class LetsMakeADeal {
 
             userChoiceForDoor = numberOfRemainingDoor;
 
-        } else if (!userChoiceForChange.equalsIgnoreCase("N")) {
+            result();
+
+        } else if (userChoiceForChange.equalsIgnoreCase("N")) {
+
+            result();
+
+        } else {
 
             System.out.println("Please enter either Y or N");
 
@@ -133,6 +140,5 @@ public class LetsMakeADeal {
         }
 
     }
-
 
 }
