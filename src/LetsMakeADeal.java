@@ -12,13 +12,13 @@ public class LetsMakeADeal {
 
     public static void main (String[] args) {
 
+        System.out.println("Welcome to Let's Make A Deal!");
+
         intro();
 
     }
 
     public static void intro() {
-
-        System.out.println("Welcome to Let's Make A Deal!");
 
         System.out.print("Play or simulate? (P/S): ");
         String userChoiceForPlay = console.nextLine();
@@ -104,9 +104,6 @@ public class LetsMakeADeal {
 
     public static void result() {
 
-        System.out.println("User " + userChoiceForDoor);
-        System.out.println("Real " + doorNumberOfCar);
-
         if (userChoiceForDoor == doorNumberOfCar){
 
             System.out.println("You won!");
@@ -117,6 +114,7 @@ public class LetsMakeADeal {
 
         }
 
+        startAgain();
     }
 
     public static void responseToChange() {
@@ -136,6 +134,29 @@ public class LetsMakeADeal {
             System.out.println("Please enter either Y or N");
 
             responseToChange();
+
+        }
+
+    }
+
+    public static void startAgain() {
+
+        System.out.print("Start again? (Y/N): ");
+        String userChoiceForPlayAgain = console.nextLine();
+
+        if (userChoiceForPlayAgain.equalsIgnoreCase("Y")) {
+
+            intro();
+
+        } else if(userChoiceForPlayAgain.equalsIgnoreCase("N")) {
+
+            System.out.println("Game Over");
+
+        } else {
+
+            System.out.println("Please enter either Y or N");
+
+            startAgain();
 
         }
 
