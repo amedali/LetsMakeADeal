@@ -9,6 +9,7 @@ public class LetsMakeADeal {
     public static int doorNumberOfCar;
     public static String userChoiceForChange;
     public static int numberOfRemainingDoor;
+    public static int numberOfIterations;
 
     public static void main (String[] args) {
 
@@ -96,20 +97,16 @@ public class LetsMakeADeal {
 
     }
 
-    public static void simulate() {
-
-        System.out.println("Simulation");
-
-    }
-
     public static void result() {
 
         if (userChoiceForDoor == doorNumberOfCar){
 
+            System.out.println("Door number " + userChoiceForDoor + " has a car.");
             System.out.println("You won!");
 
         } else {
 
+            System.out.println("Door number " + userChoiceForDoor + " has a goat.");
             System.out.println("You lost!");
 
         }
@@ -142,13 +139,13 @@ public class LetsMakeADeal {
     public static void startAgain() {
 
         System.out.print("Start again? (Y/N): ");
-        String userChoiceForPlayAgain = console.nextLine();
+        String userChoiceForStartAgain = console.nextLine();
 
-        if (userChoiceForPlayAgain.equalsIgnoreCase("Y")) {
+        if (userChoiceForStartAgain.equalsIgnoreCase("Y")) {
 
             intro();
 
-        } else if(userChoiceForPlayAgain.equalsIgnoreCase("N")) {
+        } else if(userChoiceForStartAgain.equalsIgnoreCase("N")) {
 
             System.out.println("Game Over");
 
@@ -159,6 +156,35 @@ public class LetsMakeADeal {
             startAgain();
 
         }
+
+    }
+
+    public static void simulate() {
+
+        System.out.print("How many iterations? ");
+        numberOfIterations = console.nextInt();
+        // /n komutunu tüketmek için alttaki statement gerekli.
+        console.nextLine();
+
+        simulation();
+
+    }
+
+    public static void simulation() {
+
+
+
+        simulationresults();
+
+    }
+
+    public static void simulationresults() {
+
+        System.out.println("The strategy of switching to the host’s choice won " + numberOfIterations + " times out of " + numberOfIterations + " times.");
+        System.out.println("Estimated winning probability of the strategy is " + numberOfIterations);
+        System.out.println("The strategy of sticking with the original choice won " + numberOfIterations + " times out of " + numberOfIterations + " times.");
+        System.out.println("Estimated winning probability of the strategy is " + numberOfIterations);
+        System.out.println("The strategy of switching to the host’s choice is better.");
 
     }
 
