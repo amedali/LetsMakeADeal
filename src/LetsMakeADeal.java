@@ -9,11 +9,23 @@ public class LetsMakeADeal {
     public static int doorNumberOfCar;
     public static String userChoiceForChange;
     public static int numberOfRemainingDoor;
-    public static int numberOfIterations;
+
+    public static int simulationDoorNumberOfCar;
+    public static int simulationChoiceForDoor;
+    public static int simulationNumberOfRemainingDoor;
+
+    public static int changeStrategyTimesWon = 0;
+    public static int changeStrategyTimesLost = 0;
+    public static int notChangeStrategyTimesWon = 0;
+    public static int notChangeStrategyTimesLost = 0;
+
+    public static int countOfPickingChangeStrategy = 0;
+    public static int countOfPickingNotChangeStrategy = 0;
 
     public static void main (String[] args) {
 
         System.out.println("Welcome to Let's Make A Deal!");
+        System.out.println();
 
         intro();
 
@@ -23,6 +35,7 @@ public class LetsMakeADeal {
 
         System.out.print("Play or simulate? (P/S): ");
         String userChoiceForPlay = console.nextLine();
+        System.out.println();
 
         if (userChoiceForPlay.equalsIgnoreCase("P")) {
 
@@ -55,10 +68,9 @@ public class LetsMakeADeal {
 
         System.out.print("Which door do you pick? (1/2/3): ");
         userChoiceForDoor = console.nextInt();
-        // /n komutunu tüketmek için alttaki statement gerekli.
         console.nextLine();
+        System.out.println();
 
-        // index'e göre değil integer'in kendisinin çıkması gerektiği için integer casting gerekli.
         allPossibleDoorNumbers.remove((Integer)userChoiceForDoor);
 
         if (userChoiceForDoor==doorNumberOfCar) {
@@ -75,6 +87,7 @@ public class LetsMakeADeal {
 
             System.out.print("Do you want to change your choice and pick door number " + numberOfRemainingDoor + "? (Y/N): ");
             userChoiceForChange = console.nextLine();
+            System.out.println();
 
             responseToChange();
 
@@ -90,28 +103,12 @@ public class LetsMakeADeal {
 
             System.out.print("Do you want to change your choice and pick door number " + doorNumberOfCar + "? (Y/N): ");
             userChoiceForChange = console.nextLine();
+            System.out.println();
 
             responseToChange();
 
         }
 
-    }
-
-    public static void result() {
-
-        if (userChoiceForDoor == doorNumberOfCar){
-
-            System.out.println("Door number " + userChoiceForDoor + " has a car.");
-            System.out.println("You won!");
-
-        } else {
-
-            System.out.println("Door number " + userChoiceForDoor + " has a goat.");
-            System.out.println("You lost!");
-
-        }
-
-        startAgain();
     }
 
     public static void responseToChange() {
@@ -136,10 +133,30 @@ public class LetsMakeADeal {
 
     }
 
+    public static void result() {
+
+        if (userChoiceForDoor == doorNumberOfCar){
+
+            System.out.println("Door number " + userChoiceForDoor + " has a car.");
+            System.out.println("You won!");
+            System.out.println();
+
+        } else {
+
+            System.out.println("Door number " + userChoiceForDoor + " has a goat.");
+            System.out.println("You lost!");
+            System.out.println();
+
+        }
+
+        startAgain();
+    }
+
     public static void startAgain() {
 
         System.out.print("Start again? (Y/N): ");
         String userChoiceForStartAgain = console.nextLine();
+        System.out.println();
 
         if (userChoiceForStartAgain.equalsIgnoreCase("Y")) {
 
@@ -162,29 +179,136 @@ public class LetsMakeADeal {
     public static void simulate() {
 
         System.out.print("How many iterations? ");
-        numberOfIterations = console.nextInt();
-        // /n komutunu tüketmek için alttaki statement gerekli.
+        int numberOfIterations = console.nextInt();
         console.nextLine();
+        System.out.println();
 
-        simulation();
+        for (int i = 0; i < numberOfIterations; i++) {
+
+            simulation();
+
+        }
+
+        simulationResults();
 
     }
 
     public static void simulation() {
 
+        Random random = new Random();
+        Random random2 = new Random();
+        Random random3 = new Random();
 
+        ArrayList <Integer> allPossibleDoorNumbers =  new ArrayList <> ();
 
-        simulationresults();
+        simulationDoorNumberOfCar = random.nextInt(3) + 1;
+        simulationChoiceForDoor = random2.nextInt(3) + 1;
+
+        allPossibleDoorNumbers.add(1);
+        allPossibleDoorNumbers.add(2);
+        allPossibleDoorNumbers.add(3);
+
+        allPossibleDoorNumbers.remove((Integer)simulationChoiceForDoor);
+
+        if (simulationChoiceForDoor==simulationDoorNumberOfCar) {
+
+            int sizeOfAllPossibleDoorNumbers = allPossibleDoorNumbers.size();
+            int randomIndex = random3.nextInt(sizeOfAllPossibleDoorNumbers);
+            int simulationNumberOfGoat = allPossibleDoorNumbers.get(randomIndex);
+
+            allPossibleDoorNumbers.remove((Integer)simulationNumberOfGoat);
+
+            simulationNumberOfRemainingDoor = allPossibleDoorNumbers.get(0);
+
+            strategyChoice();
+
+        } else {
+
+            allPossibleDoorNumbers.remove((Integer)simulationDoorNumberOfCar);
+
+            simulationNumberOfRemainingDoor = simulationDoorNumberOfCar;
+
+            strategyChoice();
+
+        }
 
     }
 
-    public static void simulationresults() {
+    public static void strategyChoice() {
 
-        System.out.println("The strategy of switching to the host’s choice won " + numberOfIterations + " times out of " + numberOfIterations + " times.");
-        System.out.println("Estimated winning probability of the strategy is " + numberOfIterations);
-        System.out.println("The strategy of sticking with the original choice won " + numberOfIterations + " times out of " + numberOfIterations + " times.");
-        System.out.println("Estimated winning probability of the strategy is " + numberOfIterations);
-        System.out.println("The strategy of switching to the host’s choice is better.");
+        Random random4 = new Random();
+
+        int simulationChoiceForStrategy = random4.nextInt(2);
+
+        if (simulationChoiceForStrategy == 0) { //değiştirme stratejisi
+
+            simulationChoiceForDoor = simulationNumberOfRemainingDoor;
+
+            winConditionForChangeStrategy();
+
+        } else {
+
+            winConditionForNotChangeStrategy();
+
+        }
+
+    }
+
+    public static void winConditionForChangeStrategy() {
+
+        countOfPickingChangeStrategy++;
+
+        if (simulationChoiceForDoor == simulationDoorNumberOfCar) {
+
+            changeStrategyTimesWon++;
+
+        } else {
+
+            changeStrategyTimesLost++;
+
+        }
+    }
+
+    public static void winConditionForNotChangeStrategy() {
+
+        countOfPickingNotChangeStrategy++;
+
+        if (simulationChoiceForDoor == simulationDoorNumberOfCar) {
+
+            notChangeStrategyTimesWon++;
+
+        } else {
+
+            notChangeStrategyTimesLost++;
+
+        }
+    }
+
+    public static void simulationResults() {
+
+        double winningProbabilityOfChangeStrategy = ((double) changeStrategyTimesWon / countOfPickingChangeStrategy );
+        double winningProbabilityOfNotChangeStrategy = ((double) notChangeStrategyTimesWon / countOfPickingNotChangeStrategy );
+
+        System.out.println("The strategy of switching to the host’s choice won " + changeStrategyTimesWon + " times out of " + countOfPickingChangeStrategy + " times.");
+        System.out.printf("Estimated winning probability of the strategy is %.2f\n", winningProbabilityOfChangeStrategy);
+        System.out.println();
+        System.out.println("The strategy of sticking with the original choice won " + notChangeStrategyTimesWon + " times out of " + countOfPickingNotChangeStrategy + " times.");
+        System.out.printf("Estimated winning probability of the strategy is %.2f\n", + winningProbabilityOfNotChangeStrategy);
+        System.out.println();
+
+        if (winningProbabilityOfChangeStrategy > winningProbabilityOfNotChangeStrategy) {
+
+            System.out.println("The strategy of switching to the host’s choice is better.");
+
+        } else if (winningProbabilityOfChangeStrategy < winningProbabilityOfNotChangeStrategy) {
+
+            System.out.println("The strategy of sticking with the original choice is better.");
+
+        } else {
+
+            System.out.println("Both strategies are equally successful.");
+
+        }
 
     }
 
